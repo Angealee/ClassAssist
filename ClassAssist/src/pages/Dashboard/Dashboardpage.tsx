@@ -71,12 +71,12 @@ const Dashboard: React.FC = () => {
 
           {/* header */}
           <IonHeader className="ion-no-border">
-            <IonToolbar className="bg-white border-b border-slate-100 px-4 md:px-6" style={{ '--background': 'white' } as React.CSSProperties}>
+            <IonToolbar className="bg-amber-700 border-b border-slate-200 px-4 md:px-6" style={{ '--background': 'white' } as React.CSSProperties}>
               <div className="flex items-center justify-between py-3">
                 {/* Left: greeting */}
                 <div>
                   <p className="text-[11px] font-medium text-slate-400 uppercase tracking-widest">{today}</p>
-                  <h1 className="text-lg font-bold text-slate-800 leading-tight">
+                  <h1 className="text-lg font-bold text-slate-900 leading-tight">
                     {loading ? 'Loading…' : `Good day, ${instructorName.split(' ')[1] ?? instructorName}!`}
                   </h1>
                 </div>
@@ -264,7 +264,7 @@ const MobileTabBar: React.FC = () => {
   const current = typeof window !== 'undefined' ? window.location.pathname : '/dashboard';
 
   return (
-    <nav className="md:hidden flex-shrink-0 bg-white border-t border-slate-100 pb-safe">
+    <nav className="md:hidden shrink-0 bg-white border-t border-slate-100 pb-safe">
       <div className="flex">
         {tabs.map((tab) => {
           const isActive = current.startsWith(tab.path);

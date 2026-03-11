@@ -21,7 +21,7 @@ export interface Section {
   id: string;
   name: string;
   subjectId: string;
-  schedule: string;      // e.g. "MWF 7:30–9:00 AM"
+  schedule: string;      
   room: string;
   studentCount: number;
 }
@@ -29,11 +29,34 @@ export interface Section {
 //student
 export interface Student {
   id: string;
-  studentId: string;     // school-issued ID
+  studentId: string;   
   firstName: string;
   lastName: string;
   email: string;
   sectionId: string;
+}
+
+// enroll / import
+export interface EnrolledStudent {
+  studentId: string;
+  lastName: string;
+  firstName: string;
+  middleName?: string;
+  email?: string;
+}
+
+export interface EnrollmentImportResult {
+  success: EnrolledStudent[];
+  errors: { row: number; reason: string }[];
+  total: number;
+}
+
+export interface EnrollmentTarget {
+  subjectId: string;
+  subjectCode: string;
+  subjectName: string;
+  sectionId: string;
+  sectionName: string;
 }
 
 //attendance
