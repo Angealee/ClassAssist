@@ -1,2 +1,44 @@
-/* For information on how to create your own theme, please refer to:
-http://ionicframework.com/docs/theming/ */
+/* ─── Tailwind v4 (single import replaces the 3 @tailwind directives) ───────── */
+@import "tailwindcss";
+
+/* ─── Ionic + Tailwind layout fixes ─────────────────────────────────────────── */
+ion-app {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+ion-page {
+  display: flex !important;
+  flex-direction: row !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+ion-content {
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+}
+
+ion-header ion-toolbar {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --min-height: auto;
+}
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* ─── Ionic theme variables ──────────────────────────────────────────────────── */
+:root {
+  --ion-color-primary: #4f46e5;
+  --ion-color-primary-rgb: 79, 70, 229;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #4640ca;
+  --ion-color-primary-tint: #6159e8;
+}
