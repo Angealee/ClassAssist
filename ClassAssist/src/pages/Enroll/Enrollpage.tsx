@@ -109,7 +109,7 @@ const EnrollPage: React.FC = () => {
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-                  {/* Subject selector */}
+                  {/* Select Subject */}
                   <div>
                     <span style={label}>Subject</span>
                     <div style={{ position: 'relative' }}>
@@ -133,7 +133,7 @@ const EnrollPage: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Section selector */}
+                  {/* Select Section */}
                   <div>
                     <span style={label}>Section</span>
                     <div style={{ position: 'relative' }}>

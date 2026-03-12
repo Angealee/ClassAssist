@@ -2,25 +2,27 @@ import { useState, useEffect } from 'react';
 import type { EnrolledStudent, EnrollmentTarget } from '../types';
 import { fetchSubjects, fetchSectionsBySubject, saveEnrollment } from '../services/enrollmentService';
 import { parseEnrollmentFile } from '../utils/enrollmentParser';
+import { useEnrollmentStore } from '../context/EnrollmentContext';
 
 interface Subject { id: string; code: string; name: string; }
 interface Section { id: string; name: string; subjectId: string; }
 
 export function useEnrollment() {
-  const [subjects, setSubjects] = useState<Subject[]>([]);
-  const [sections, setSections] = useState<Section[]>([]);
+  const { addEnrolledSection } = useEnrollmentStore();
+
+  const [subjects, setSubjects]               = useState<Subject[]>([]);
+  const [sections, setSections]               = useState<Section[]>([]);
   const [selectedSubject, setSelectedSubject] = useState<Subject | null>(null);
   const [selectedSection, setSelectedSection] = useState<Section | null>(null);
-  const [students, setStudents] = useState<EnrolledStudent[]>([]);
-  const [importErrors, setImportErrors] = useState<{ row: number; reason: string }[]>([]);
+  const [students, setStudents]               = useState<EnrolledStudent[]>([]);
+  const [importErrors, setImportErrors]       = useState<{ row: number; reason: string }[]>([]);
   const [loadingSubjects, setLoadingSubjects] = useState(true);
   const [loadingSections, setLoadingSections] = useState(false);
-  const [importing, setImporting] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
-  const [fileName, setFileName] = useState('');
+  const [importing, setImporting]             = useState(false);
+  const [saving, setSaving]                   = useState(false);
+  const [saved, setSaved]                     = useState(false);
+  const [fileName, setFileName]               = useState('');
 
-  // Load subjects on mount
   useEffect(() => {
     fetchSubjects().then(data => {
       setSubjects(data);
@@ -28,7 +30,6 @@ export function useEnrollment() {
     });
   }, []);
 
-  // Load sections when subject changes
   useEffect(() => {
     if (!selectedSubject) { setSections([]); setSelectedSection(null); return; }
     setLoadingSections(true);
@@ -45,7 +46,6 @@ export function useEnrollment() {
     setImportErrors([]);
     setSaved(false);
     setFileName(file.name);
-
     const result = await parseEnrollmentFile(file);
     setStudents(result.success);
     setImportErrors(result.errors);
@@ -55,6 +55,7 @@ export function useEnrollment() {
   const handleSave = async () => {
     if (!selectedSubject || !selectedSection || students.length === 0) return;
     setSaving(true);
+
     const target: EnrollmentTarget = {
       subjectId: selectedSubject.id,
       subjectCode: selectedSubject.code,
@@ -62,7 +63,12 @@ export function useEnrollment() {
       sectionId: selectedSection.id,
       sectionName: selectedSection.name,
     };
+
     await saveEnrollment(target, students);
+
+    // ── Push into shared context so Records page can see it ──────────────────
+    addEnrolledSection({ target, students });
+
     setSaving(false);
     setSaved(true);
   };

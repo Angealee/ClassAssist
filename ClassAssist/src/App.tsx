@@ -22,11 +22,14 @@ import './theme/variables.css';
 /* Pages */
 import Dashboard from './pages/Dashboard/Dashboardpage';
 import EnrollPage from './pages/Enroll/Enrollpage';
+import records from './pages/Records/records';
+import { EnrollmentProvider } from './context/EnrollmentContext';
 
 setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
+    <EnrollmentProvider>
     <IonReactRouter>
       <IonRouterOutlet>
 
@@ -38,6 +41,8 @@ const App: React.FC = () => (
           <EnrollPage />
         </Route>
 
+        <Route exact path="/Records" component={records} />
+
         {/* Default redirect */}
         <Route exact path="/">
           <Redirect to="/dashboard" />
@@ -45,6 +50,7 @@ const App: React.FC = () => (
 
       </IonRouterOutlet>
     </IonReactRouter>
+    </EnrollmentProvider>
   </IonApp>
 );
 
